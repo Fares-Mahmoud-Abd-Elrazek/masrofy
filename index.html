@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masrofy</title>
+    <link rel="icon" href="./Image/favicon.svg">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="./Style/all.min.css">
+    <link rel="stylesheet" href="./Style/bootstrap.min.css">
+    <link rel="stylesheet" href="./Style/style.css">
+</head>
+
+<body>
+    <!-- start navbar -->
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container">
+            <a class="navbar-brand" href="#">Masrofy <span>&middot;</span> Expense Tracker</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active nav-active" aria-current="page" href="#dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#expenses">Expenses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#reports">Reports</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <!-- end navbar -->
+    <!-- start dashboard section -->
+    <section id="dashboard">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                <h1 class="h3 mb-0" id="dashboardTitle"></h1>
+                <select id="monthFilter" class="form-select w-auto" aria-label="Filter by month">
+                    <option value="this-month">This month</option>
+                    <option value="last-month">Last month</option>
+                    <option value="all-time">All time</option>
+                </select>
+            </div>
+            <p id="appMessage" class="alert d-none" role="status" aria-live="polite"></p>
+
+            <!-- Summary cards -->
+            <section class="row g-3 mb-4">
+                <div class="col-6 col-lg-3">
+                    <div class="card p-3 h-100">
+                        <div class="stat-label">Total spent</div>
+                        <div class="stat-value" id="totalSpent">EGP 0</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card p-3 h-100">
+                        <div class="stat-label">Categories</div>
+                        <div class="stat-value" id="totalCategory">-</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card p-3 h-100">
+                        <div class="stat-label">Daily average</div>
+                        <div class="stat-value" id="dailyAverage">EGP 0</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card p-3 h-100">
+                        <div class="stat-label">Transactions</div>
+                        <div class="stat-value" id="txCount">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expense form and chart -->
+            <section class="row g-3 mb-4">
+                <div class="col-lg-6">
+                    <div class="card p-4 h-100">
+                        <h2 class="h5 mb-3">Add expense</h2>
+                        <form id="expenseForm" class="gap-3">
+                            <div>
+                                <label for="desc" class="form-label fw-semibold">Description</label>
+                                <input type="text" id="desc" class="form-control" placeholder="e.g. Lunch" maxlength="100" required>
+                            </div>
+                            <div>
+                                <label for="amount" class="form-label fw-semibold">Amount (EGP)</label>
+                                <input type="number" id="amount" class="form-control" min="0.01" step="0.01" placeholder="0.00" required>
+                            </div>
+                            <div>
+                                <label for="category" class="form-label fw-semibold">Category</label>
+                                <select id="category" class="form-select">
+                                    <option value="" selected disabled>Choose a category</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Fun">Fun</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="date" class="form-label fw-semibold">Date</label>
+                                <input type="date" id="date" class="form-control" required>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="submit" id="submitExpense" class="btn btn-success">Add expense</button>
+                                <button type="button" id="cancelEdit" class="btn btn-outline-secondary d-none">Cancel edit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" id="reports">
+                    <div class="card p-4 h-100">
+                        <h2 class="h5 mb-3">Spending by category</h2>
+                        <div class="chart-box">
+                            <canvas id="categoryChart" aria-label="Spending by category chart" role="img"></canvas>
+                        </div>
+                        <ul id="categoryLegend" class="category-legend list-unstyled mb-0" aria-label="Category spending"></ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+    <!-- end dashboard section -->
+
+    <!-- start expenses table -->
+    <section class="container pb-5" id="expenses">
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-content-center flex-wrap gap-2 mb-3">
+                <h2 class="h5 mb-0">Recent expenses</h2>
+                <select id="categoryFilter" class="form-select w-auto" aria-label="Filter by category">
+                <option value="all">All categories</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Bills">Bills</option>
+                <option value="Fun">Fun</option>
+                <option value="Other">Other</option>
+            </select>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- end expenses table -->
+    <script src="./JS/bootstrap.bundle.min.js"></script>
+    <script src="./JS/main.js"></script>
+</body>
+
+</html>

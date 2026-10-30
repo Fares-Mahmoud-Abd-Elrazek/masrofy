@@ -2,8 +2,14 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+}
+
 body {
     min-height: 100vh;
+    padding-top: 72px;
     background: #f4f7f6;
     color: #183330;
     font-family: 'Inter', sans-serif;
@@ -13,6 +19,11 @@ body {
     min-height: 72px;
     background-color: #0f2f2c;
     box-shadow: 0 4px 18px rgb(15 47 44 / 12%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10000;
 }
 
 .navbar .navbar-brand {
@@ -31,10 +42,6 @@ body {
     background-color: #0f766e;
     border-radius: 0.6rem;
     font-weight: 600;
-}
-
-.navbar .nav-active {
-    color: #fff;
 }
 
 .navbar .nav-link {
@@ -171,12 +178,10 @@ body {
     text-align: right;
 }
 
-#expenses {
-    scroll-margin-top: 1.5rem;
-}
-
+#dashboard,
+#expenses,
 #reports {
-    scroll-margin-top: 1.5rem;
+    scroll-margin-top: 88px;
 }
 
 .overview-empty {
@@ -210,13 +215,20 @@ body {
     .navbar .nav-link {
         margin: 0.2rem 0;
     }
-
     #dashboard {
         padding: 2rem 0;
+    }
+
+    html {
+        scroll-padding-top: 88px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {

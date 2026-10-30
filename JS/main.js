@@ -36,9 +36,72 @@
     const expensesHeading = element("dashboardTitle");
     const categoryCanvas = element("categoryChart");
     const categoryLegend = element("categoryLegend");
+    const navbar = document.querySelector(".navbar");
+    const navLinks = [...document.querySelectorAll('.navbar .nav-link[href^="#"]')];
+    const navSections = navLinks
+        .map((link) => ({
+            link,
+            section: document.getElementById(link.getAttribute("href").slice(1))
+        }))
+        .filter((item) => item.section)
+        .sort((first, second) => {
+            const position = first.section.compareDocumentPosition(second.section);
+            return position & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+        });
 
     let expenses = [];
     let editingId = null;
+
+    function setActiveNavLink(activeLink) {
+        navLinks.forEach((link) => {
+            const isActive = link === activeLink;
+            link.classList.toggle("active", isActive);
+            if (isActive) {
+                link.setAttribute("aria-current", "page");
+            } else {
+                link.removeAttribute("aria-current");
+            }
+        });
+    }
+
+    function updateActiveNavLink() {
+        if (navSections.length === 0) {
+            return;
+        }
+
+        const navBottom = navbar ? navbar.getBoundingClientRect().bottom : 0;
+        const activationLine = navBottom + 24;
+        let currentSection = navSections[0];
+
+        for (const item of navSections) {
+            if (item.section.getBoundingClientRect().top <= activationLine) {
+                currentSection = item;
+            } else {
+                break;
+            }
+        }
+
+        const reachedPageBottom =
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        if (reachedPageBottom) {
+            currentSection = navSections[navSections.length - 1];
+        }
+
+        setActiveNavLink(currentSection.link);
+    }
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            setActiveNavLink(link);
+
+            const collapseElement = document.getElementById("navbarSupportedContent");
+            if (collapseElement?.classList.contains("show") && window.bootstrap?.Collapse) {
+                window.bootstrap.Collapse.getOrCreateInstance(collapseElement).hide();
+            }
+        });
+    });
+
+    window.addEventListener("scroll", updateActiveNavLink, { passive: true });
     function showMessage(text, type = "success") {
         message.textContent = text;
         message.className = `alert alert-${type}`;
@@ -448,6 +511,7 @@
     monthFilter.addEventListener("change", render);
     categoryFilter.addEventListener("change", render);
     window.addEventListener("resize", () => {
+        updateActiveNavLink();
         const filteredExpenses = getMonthExpenses();
         const totals = getCategoryTotals(filteredExpenses);
         const totalCents = filteredExpenses.reduce((total, expense) => total + expense.amountCents, 0);
@@ -469,4 +533,5 @@
     }
 
     render();
+    updateActiveNavLink();
 })();

@@ -36,6 +36,7 @@
     const expensesHeading = element("dashboardTitle");
     const categoryCanvas = element("categoryChart");
     const categoryLegend = element("categoryLegend");
+    const exportReportButton = element("exportReport");
     const navbar = document.querySelector(".navbar");
     const navLinks = [...document.querySelectorAll('.navbar .nav-link[href^="#"]')];
     const navSections = navLinks
@@ -510,6 +511,9 @@
 
     monthFilter.addEventListener("change", render);
     categoryFilter.addEventListener("change", render);
+    exportReportButton.addEventListener("click", () => {
+        window.print();
+    });
     window.addEventListener("resize", () => {
         updateActiveNavLink();
         const filteredExpenses = getMonthExpenses();

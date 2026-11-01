@@ -134,6 +134,25 @@ body {
     background-color: #0b625c;
 }
 
+.btn-outline-success {
+    border-color: #0f766e;
+    color: #0f766e;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus-visible {
+    border-color: #0f766e;
+    background-color: #0f766e;
+    color: #fff;
+}
+
+.report-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
 .chart-box {
     min-height: 220px;
 }
@@ -234,5 +253,120 @@ body {
     *::after {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+@page {
+    size: auto;
+    margin: 16mm;
+}
+
+@media print {
+    html {
+        scroll-padding-top: 0;
+    }
+
+    body {
+        padding: 0;
+        background: #fff;
+        color: #183330;
+        font-size: 10pt;
+    }
+
+    .navbar,
+    .expense-form-column,
+    .no-print,
+    #appMessage,
+    #categoryFilter,
+    .actions-column,
+    #expenseBody td:last-child {
+        display: none !important;
+    }
+
+    #dashboard {
+        padding: 0;
+    }
+
+    #dashboard .container,
+    #expenses.container {
+        width: 100%;
+        max-width: none;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    #dashboard h1 {
+        margin-bottom: 0;
+        font-size: 22pt;
+    }
+
+    #dashboard .row {
+        display: block;
+        margin: 0;
+    }
+
+    #dashboard .row > * {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+    }
+
+    #dashboard .summary-cards {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+    }
+
+    #dashboard .summary-cards > * {
+        width: 25%;
+    }
+
+    #dashboard .card,
+    #expenses .card {
+        border: 1px solid #d5dfdc;
+        border-radius: 0;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    #dashboard .stat-value {
+        font-size: 14pt;
+    }
+
+    #reports {
+        margin-top: 1rem;
+    }
+
+    .chart-box {
+        min-height: 180px;
+    }
+
+    .chart-box canvas {
+        max-width: 100%;
+    }
+
+    #expenses {
+        padding-bottom: 0 !important;
+        break-before: page;
+    }
+
+    #expenses table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #expenses th,
+    #expenses td {
+        padding: 0.45rem;
+        border: 1px solid #d5dfdc;
+        color: #183330;
+    }
+
+    #expenses thead {
+        display: table-header-group;
+    }
+
+    #expenses tr {
+        break-inside: avoid;
     }
 }
